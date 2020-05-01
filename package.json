@@ -1,0 +1,23 @@
+{
+  "name": "winston-logger-example",
+  "version": "1.0.0",
+  "description": "Ejemplo básico para crear ficheros de logs con winston",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waquispe/winston-logger-example.git"
+  },
+  "author": "Alex Quispe <q.wilmer.alex@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/waquispe/winston-logger-example/issues"
+  },
+  "homepage": "https://github.com/waquispe/winston-logger-example#readme",
+  "dependencies": {
+    "moment": "^2.24.0",
+    "winston": "^3.2.1"
+  }
+}
