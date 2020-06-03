@@ -7,5 +7,6 @@ Ejemplo básico para crear ficheros de logs con winston.
 ```bash
 git clone https://github.com/waquispe/winston-logger-example.git
 cd winston-logger-example
+npm install
 node index.js
 ```

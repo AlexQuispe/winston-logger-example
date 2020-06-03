@@ -6,23 +6,27 @@ class Logger {
   constructor() {
     this.winstonLogger = winston.createLogger({
       levels      : { error: 1, warn: 2, info: 3 },
-      transports  : this.createTransports(),
+      transports  : this._createTransports(),
       exitOnError : false,
     })
   }
 
-  createTransports() {
+  info(message, data) { this.winstonLogger.info({ message, data }) }
+  warn(message, data) { this.winstonLogger.warn({ message, data }) }
+  error(message, data) { this.winstonLogger.error({ message, data }) }
+
+  _createTransports() {
     const TRANSPORTS = []
     TRANSPORTS.push(new winston.transports.Console({
-      format           : winston.format.printf(this.consoleFormat()),
-      level            : 'info', // Muestra logs de nivel 3
+      format           : winston.format.printf(this._consoleFormat()),
+      level            : 'info', // Muestra logs de nivel 3 o menor
       handleExceptions : false,
       colorize         : false,
       json             : false,
     }))
     Array.from(['info', 'warn', 'error']).forEach(level => {
       TRANSPORTS.push(new winston.transports.File({
-        format           : winston.format.printf(this.fileFormat()),
+        format           : winston.format.printf(this._fileFormat()),
         level            : level,
         handleExceptions : false,
         colorize         : false,
@@ -35,12 +39,12 @@ class Logger {
     return TRANSPORTS
   }
 
-  consoleFormat () {
+  _consoleFormat () {
     const COLORS = {
-      error : `\x1b[31m`,  // RED
-      warn  : `\x1b[33m`,  // YELLOW
-      info  : `\x1b[36m`,  // CYAN
-      reset : `\x1b[0m`,   // Restaura al color por defecto
+      error : `\x1b[91m`, // LIGHT_RED
+      warn  : `\x1b[93m`, // LIGHT_YELLOW
+      info  : `\x1b[96m`, // LIGHT_CYAN
+      reset : `\x1b[0m`,  // Restaura al color por defecto
     }
     return (info) => {
       const START     = COLORS[info.level]
@@ -53,7 +57,7 @@ class Logger {
     }
   }
 
-  fileFormat() {
+  _fileFormat() {
     return (info)  => {
       const TIMESTAMP = moment().format('DD/MM/YYYY HH:mm:ss')
       const LEVEL     = info.level
@@ -67,12 +71,6 @@ class Logger {
       })
     }
   }
-
-  info(message, data=null) { this.winstonLogger.info({ message, data }) }
-
-  warn(message, data=null) { this.winstonLogger.warn({ message, data }) }
-
-  error(message, data=null) { this.winstonLogger.error({ message, data }) }
 }
 
 module.exports = Logger
